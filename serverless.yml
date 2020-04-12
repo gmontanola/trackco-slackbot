@@ -1,0 +1,56 @@
+service: track-slackbot
+
+provider:
+  name: aws
+  runtime: python3.8
+  stage: dev
+  region: us-east-1
+  iamRoleStatements:
+  - Effect: "Allow"
+    Action:
+      - dynamodb:UpdateItem
+      - dynamodb:GetItem
+    Resource:
+      Fn::Join:
+        - ":"
+        - - arn
+          - aws
+          - dynamodb
+          - Ref: AWS::Region
+          - Ref: AWS::AccountId
+          - table/${self:custom.slackTable}
+
+custom:
+  slackTable: "slackbot-lastnps"
+  slackTimezone: "America/Sao_Paulo"
+
+
+functions:
+  post-comments:
+    handler: handler.post_recent_comments
+    timout: 60
+    memorySize: 256
+    events:
+      - schedule: rate(${opt:rate, "30 minutes"})
+    environment:
+      TRACKCO_TOKEN: ${ssm:TRACKCO_TOKEN~true}
+      SLACK_WEBHOOK_URL: ${ssm:SLACK_WEBHOOK_URL~true}
+      SLACK_TIMEZONE: ${self:custom.slackTimezone}
+      SLACK_TABLE: ${self:custom.slackTable}
+
+
+package:
+  exclude:
+    - .vscode/**
+    - __pycache__/**
+    - .python-version
+    - requirements.in
+    - node_modules/**
+    - package-lock.json
+    - package.json
+    - README.md
+    - LICENSE
+
+
+plugins:
+  - serverless-python-requirements
