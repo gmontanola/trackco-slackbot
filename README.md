@@ -28,7 +28,7 @@ It runs on AWS Lambda and stores a little piece of data on DynamoDB. This projec
 
 ## TODO
 
-1. **Better instructions** - T
+1. **Better instructions** - self describing
 2. **Tests** - I guess this project is a good opportunity to start testing my code.
 3. **CI/CD** - Truth to be told: my experience with CI/CD matches my experience with tests.
 4. **Remove hardcoded stuff** - There is plenty of hardcoded variables and I'll try to refactor and make the code cleaner and able to handle different users needs.
