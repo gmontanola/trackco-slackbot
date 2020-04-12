@@ -1,8 +1,8 @@
 # NPS Bot Track.co + Slack
 
-This simple Slack bot gathers new NPS answers from Track.co using it's [API](https://api.tracksale.co/) and parsing the results to a friendly format and posting to a channel.
+This simple Slack bot gathers new NPS answers from [Track.co](https://tracksale.co/) using it's [API](https://api.tracksale.co/) and parsing the results to a friendly format and posting to a channel.
 
-It runs on AWS Lambda and stores a little piece of data on DynamoDB. This project can fit the Free Tier without any problem.
+It runs on AWS Lambda and stores a little piece of data on DynamoDB. This project can fit the Free Tier without any problem. This started as a weekend project but I'll probably update it to improve my coding skills.
 
 ![Screen capture](https://i.imgur.com/C0J7nEy.png)
 
@@ -10,7 +10,7 @@ It runs on AWS Lambda and stores a little piece of data on DynamoDB. This projec
 
 1. Clone this repo
 2. Create a simple DynamoDB table
-3. Create two parameters at [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html):
+3. Create two parameters with type set as **SecureString** at [AWS Parameter Store](https://docs.aws.amazon.com/systems-manager/latest/userguide/systems-manager-parameter-store.html):
     * *TRACKCO_TOKEN:* your Track.co API token
     * *SLACK_WEBHOOK_URL:* the webhook Slacks provides you for incoming messages.
 4. Install and configure [Serverless Framework](https://serverless.com/framework/docs/getting-started/)
@@ -18,7 +18,7 @@ It runs on AWS Lambda and stores a little piece of data on DynamoDB. This projec
 6. Edit `serverless.yml` and change some variables:
     * *slackTable:* the name of your DynamoDB table you've just created.
     * *slackTimezone:* the timezone of your Slack channel.
-7. Inside the project directory run `sls deploy` to deploy it to AWS. If you want to change the **update rate** for the bot (default is 30 minutes) use `sls deploy --rate RATE` where RATE is a time expression like `15 minutes` or `2 hours`.
+7. Inside the project directory run `sls deploy` to deploy it to AWS. If you want to change the **update rate** for the bot (the _default_ is 30 minutes) use `sls deploy --rate RATE` where RATE is a time expression like `15 minutes` or `2 hours`.
 
 ## Limitations
 
@@ -28,7 +28,7 @@ It runs on AWS Lambda and stores a little piece of data on DynamoDB. This projec
 
 ## TODO
 
-1. **Better instructions** - self describing
+1. **Better instructions** - Self describing
 2. **Tests** - I guess this project is a good opportunity to start testing my code.
 3. **CI/CD** - Truth to be told: my experience with CI/CD matches my experience with tests.
 4. **Remove hardcoded stuff** - There is plenty of hardcoded variables and I'll try to refactor and make the code cleaner and able to handle different users needs.
