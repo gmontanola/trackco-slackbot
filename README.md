@@ -1,6 +1,6 @@
 # NPS Bot Track.co + Slack
 
-This simple Slack bot gathers new NPS answers from [Track.co](https://tracksale.co/) using it's [API](https://api.tracksale.co/) and parsing the results to a friendly format and posting to a channel.
+This simple Slack bot gathers new NPS answers from [Track.co](https://tracksale.co/) using it's [API](https://api.tracksale.co/), parses the results to a friendly format and posts to a channel.
 
 It runs on AWS Lambda and stores a little piece of data on DynamoDB. This project can fit the Free Tier without any problem. This started as a weekend project but I'll probably update it to improve my coding skills.
 
