@@ -1,5 +1,4 @@
 import json
-import time
 from datetime import datetime, timedelta
 
 import boto3
@@ -28,7 +27,7 @@ def post_recent_comments(event, context):
     results = prepare_results(track_response, dynamodb)
 
     if any(results):
-        logger.info(f"{len(results)} new answers found!")
+        logger.info(f"{len(results)} new {'answers' if len(results) > 1 else 'answer'} found!")
         messages = create_message_batch(results)
 
         try:
@@ -38,8 +37,9 @@ def post_recent_comments(event, context):
                 r = httpx.post(url=SLACK_WEBHOOK_URL, headers=HEADERS, data=json.dumps({"text": message}))
                 r.raise_for_status()
                 request_counter += 1
-                time.sleep(0.5)
-            logger.info(f"{request_counter} messages were sent to Slack!")
+            logger.info(
+                f"{request_counter} {'messages' if request_counter > 1 else 'message'} sent to Slack!"
+            )
 
         except httpx.HTTPError:
             logger.error(f"The request failed with status code: {r.status_code}")
