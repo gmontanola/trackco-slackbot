@@ -28,7 +28,7 @@ custom:
 functions:
   post-comments:
     handler: handler.post_recent_comments
-    timout: 60
+    timeout: 60
     memorySize: 256
     events:
       - schedule: rate(${opt:rate, "30 minutes"})
