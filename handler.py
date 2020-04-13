@@ -1,14 +1,13 @@
 import json
-from datetime import datetime, timedelta
 import time
+from datetime import datetime, timedelta
 
 import boto3
 import httpx
 import pytz
 
 from settings import HEADERS, SLACK_WEBHOOK_URL, TIMEZONE, TRACKCO_TOKEN
-from utils import create_message_batch, fetch_comments, prepare_results, update_last_comment_time, logger
-
+from utils import create_message_batch, fetch_comments, logger, prepare_results, update_last_comment_time
 
 dynamodb = boto3.client("dynamodb")
 
@@ -35,9 +34,7 @@ def post_recent_comments(event, context):
         try:
             logger.info("Sending message data to Slack")
             for message in messages:
-                r = httpx.post(
-                    url=SLACK_WEBHOOK_URL, headers=HEADERS, data=json.dumps({"text": message})
-                )
+                r = httpx.post(url=SLACK_WEBHOOK_URL, headers=HEADERS, data=json.dumps({"text": message}))
                 r.raise_for_status()
                 time.sleep(0.5)
             logger.info("All messages were sent to Slack!")

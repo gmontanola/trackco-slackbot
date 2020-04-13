@@ -76,7 +76,8 @@ def readable_dates(results, date_key="date"):
 
 def create_message_batch(results):
     for result in results:
-        yield (format_message(result))
+        if result:
+            yield (format_message(result))
 
 
 def format_message(result):
