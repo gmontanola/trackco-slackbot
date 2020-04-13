@@ -32,12 +32,14 @@ def post_recent_comments(event, context):
         messages = create_message_batch(results)
 
         try:
+            request_counter = 0
             logger.info("Sending message data to Slack")
             for message in messages:
                 r = httpx.post(url=SLACK_WEBHOOK_URL, headers=HEADERS, data=json.dumps({"text": message}))
                 r.raise_for_status()
+                request_counter += 1
                 time.sleep(0.5)
-            logger.info("All messages were sent to Slack!")
+            logger.info(f"{request_counter} messages were sent to Slack!")
 
         except httpx.HTTPError:
             logger.error(f"The request failed with status code: {r.status_code}")

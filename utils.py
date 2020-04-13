@@ -76,8 +76,7 @@ def readable_dates(results, date_key="date"):
 
 def create_message_batch(results):
     for result in results:
-        if result:
-            yield (format_message(result))
+        yield (format_message(result))
 
 
 def format_message(result):
@@ -171,5 +170,6 @@ def prepare_results(response, dynamodb_client):
     results = localize_dates(results, tz=TIMEZONE)
     results = readable_dates(results)
     results = filter_results(results, last_comment_time)
+    results = [result for result in results if result]
 
     return results
